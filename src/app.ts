@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import express from 'express'
 import cors from 'cors'
+import routes from './app/modules/routes';
 
 const app: Application = express();
 
