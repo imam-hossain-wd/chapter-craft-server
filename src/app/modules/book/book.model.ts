@@ -15,6 +15,6 @@ const ReviewSchema: Schema = new Schema({
     reviews: [ReviewSchema],
   });
   
-  const BookModel = mongoose.model<IBook>('Book', BookSchema);
+  const Book = mongoose.model<IBook>('Book', BookSchema);
   
-  export default BookModel;
+  export default Book;
