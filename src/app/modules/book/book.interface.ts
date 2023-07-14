@@ -3,7 +3,7 @@ interface Review {
     comment: string;
   }
 
-interface Book {
+export interface IBook {
     title: string;
     author: string;
     genre: string;
