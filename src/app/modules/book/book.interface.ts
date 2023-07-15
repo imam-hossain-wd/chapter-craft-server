@@ -12,11 +12,6 @@ export interface IBook {
     reviews: Review[];
   }
 
-  export type IFilterableFields = {
-    searchTerm : string,
-    genre: string,
-    publicationYear:string
-  }
   
 
   

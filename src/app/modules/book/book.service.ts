@@ -1,10 +1,6 @@
 import { IBook } from "./book.interface";
 import Book from "./book.model";
 
-// const getAllBooks = async () => {
-//   const result = await Book.find({});
-//   return result;
-// };
 const getAllBooks = async (searchTerm?: string, genre?: string, publicationYear?:number) => {
   const filter: any = {};
 
@@ -33,6 +29,13 @@ const getAllBooks = async (searchTerm?: string, genre?: string, publicationYear?
   const result = await Book.find(filter);
   return result;
 };
+
+// get single book
+
+const getSingleBook = async (_id:string)=> {
+  const result = await Book.findById({_id})
+  return result;
+}
 
 
 const createBook = async (book: IBook): Promise<IBook | null> => {
@@ -72,6 +75,7 @@ const deleteBook = async (_id: string) => {
 
 export const bookService = {
   getAllBooks,
+  getSingleBook,
   createBook,
   updateBook,
   deleteBook,

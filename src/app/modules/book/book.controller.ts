@@ -18,6 +18,20 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
     data: books,
   });
 });
+
+const getSingleBook = catchAsync(async (req: Request, res: Response) =>{
+  const _id = req.params.id;
+  console.log(_id);
+  const result = await bookService.getSingleBook(_id)
+  res.status(200).json({
+    status: "success",
+    statusCode: 200,
+    success: true,
+    data: result,
+  });
+
+})
+
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const { ...book } = req.body;
   const result = await bookService.createBook(book);
@@ -57,6 +71,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
 
 export const bookcontroller = {
   getAllBooks,
+  getSingleBook,
   createBook,
   deleteBook,
   updateFaculty
