@@ -23,6 +23,20 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//update book
+
+const updateFaculty = catchAsync(async (req: Request, res: Response) => {
+    const _id = req.params.id;
+    const updatedData = req.body;
+    const result = await bookService.updateBook(_id, updatedData);
+    res.status(200).json({
+        statuscode: 200,
+        status : "success",
+        success:true,
+        data:result
+    })
+  });
+
 //delete book
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const _id = req.params.id;
@@ -39,4 +53,5 @@ export const bookcontroller = {
   getAllBooks,
   createBook,
   deleteBook,
+  updateFaculty
 };
