@@ -3,8 +3,14 @@ import catchAsync from "../../../shared/catchAsync";
 import { bookService } from "./book.service";
 import httpStatus from "http-status";
 
+
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const books = await bookService.getAllBooks();
+
+  const { searchTerm, genre, publicationYear }: { searchTerm?: string  , genre?: string, publicationYear?: number } = req.query;
+  console.log('search term', searchTerm);
+  console.log('genre', genre);
+  console.log('publicationYear',publicationYear);
+  const books = await bookService.getAllBooks(searchTerm , genre , publicationYear );
   res.status(200).json({
     status: "success",
     statusCode: 200,

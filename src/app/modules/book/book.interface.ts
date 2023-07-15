@@ -11,6 +11,12 @@ export interface IBook {
     image_url: string;
     reviews: Review[];
   }
+
+  export type IFilterableFields = {
+    searchTerm : string,
+    genre: string,
+    publicationYear:string
+  }
   
 
   
