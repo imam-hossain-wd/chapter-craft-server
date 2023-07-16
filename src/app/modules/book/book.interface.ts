@@ -9,7 +9,7 @@ export interface IBook {
     genre: string;
     publication_date: string;
     image_url: string;
-    reviews: Review[];
+    reviews?: Review[];
   }
 
   

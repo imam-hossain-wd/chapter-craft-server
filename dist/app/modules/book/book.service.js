@@ -49,6 +49,11 @@ const getAllBooks = (searchTerm, genre, publicationYear) => __awaiter(void 0, vo
     const result = yield book_model_1.default.find(filter);
     return result;
 });
+// get single book
+const getSingleBook = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield book_model_1.default.findById({ _id });
+    return result;
+});
 const createBook = (book) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield book_model_1.default.create(book);
     return book;
@@ -77,6 +82,7 @@ const deleteBook = (_id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.bookService = {
     getAllBooks,
+    getSingleBook,
     createBook,
     updateBook,
     deleteBook,

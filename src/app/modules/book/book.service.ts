@@ -26,7 +26,7 @@ const getAllBooks = async (searchTerm?: string, genre?: string, publicationYear?
     };
   }
 
-  const result = await Book.find(filter);
+  const result = await Book.find(filter).sort({ createdAt: -1 });
   return result;
 };
 

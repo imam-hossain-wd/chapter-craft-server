@@ -40,6 +40,17 @@ const getAllBooks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: books,
     });
 }));
+const getSingleBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const _id = req.params.id;
+    console.log(_id);
+    const result = yield book_service_1.bookService.getSingleBook(_id);
+    res.status(200).json({
+        status: "success",
+        statusCode: 200,
+        success: true,
+        data: result,
+    });
+}));
 const createBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const book = __rest(req.body, []);
     const result = yield book_service_1.bookService.createBook(book);
@@ -75,6 +86,7 @@ const deleteBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 exports.bookcontroller = {
     getAllBooks,
+    getSingleBook,
     createBook,
     deleteBook,
     updateFaculty

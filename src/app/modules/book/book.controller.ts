@@ -7,9 +7,6 @@ import httpStatus from "http-status";
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
 
   const { searchTerm, genre, publicationYear }: { searchTerm?: string  , genre?: string, publicationYear?: number } = req.query;
-  console.log('search term', searchTerm);
-  console.log('genre', genre);
-  console.log('publicationYear',publicationYear);
   const books = await bookService.getAllBooks(searchTerm , genre , publicationYear );
   res.status(200).json({
     status: "success",
@@ -34,6 +31,7 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) =>{
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const { ...book } = req.body;
+  console.log(req.body);
   const result = await bookService.createBook(book);
   res.status(200).json({
     status: "success",
