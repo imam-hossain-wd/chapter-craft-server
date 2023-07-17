@@ -29,9 +29,6 @@ const book_service_1 = require("./book.service");
 const http_status_1 = __importDefault(require("http-status"));
 const getAllBooks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm, genre, publicationYear } = req.query;
-    console.log('search term', searchTerm);
-    console.log('genre', genre);
-    console.log('publicationYear', publicationYear);
     const books = yield book_service_1.bookService.getAllBooks(searchTerm, genre, publicationYear);
     res.status(200).json({
         status: "success",
@@ -53,6 +50,7 @@ const getSingleBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 const createBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const book = __rest(req.body, []);
+    console.log(req.body);
     const result = yield book_service_1.bookService.createBook(book);
     res.status(200).json({
         status: "success",

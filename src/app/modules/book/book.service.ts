@@ -49,6 +49,7 @@ const updateBook = async (
   _id: string,
   payload: Partial<IBook>
 ): Promise<IBook | null> => {
+  console.log('serviced....',payload);
   const isExist = await Book.findOne({ _id });
 
   if (!isExist) {

@@ -46,7 +46,7 @@ const getAllBooks = (searchTerm, genre, publicationYear) => __awaiter(void 0, vo
             $lte: publicationYearEnd,
         };
     }
-    const result = yield book_model_1.default.find(filter);
+    const result = yield book_model_1.default.find(filter).sort({ createdAt: -1 });
     return result;
 });
 // get single book

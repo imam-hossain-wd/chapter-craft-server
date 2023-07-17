@@ -43,10 +43,13 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 
 //update book
 
+
+
 const updateFaculty = catchAsync(async (req: Request, res: Response) => {
     const _id = req.params.id;
-    const updatedData = req.body;
+    const updatedData = req.body.updatedBook;
     const result = await bookService.updateBook(_id, updatedData);
+    console.log(result);
     res.status(200).json({
         statuscode: 200,
         status : "success",

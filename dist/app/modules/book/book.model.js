@@ -34,7 +34,12 @@ const BookSchema = new mongoose_1.Schema({
     genre: { type: String, required: true },
     publication_date: { type: Date, required: true },
     image_url: { type: String, required: true },
-    reviews: [ReviewSchema],
+    reviews: {
+        type: [ReviewSchema],
+        default: undefined,
+    },
+}, {
+    timestamps: true,
 });
 const Book = mongoose_1.default.model('Book', BookSchema);
 exports.default = Book;
