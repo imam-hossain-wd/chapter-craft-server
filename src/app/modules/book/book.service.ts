@@ -1,7 +1,7 @@
 import { IBook } from "./book.interface";
 import Book from "./book.model";
 
-const getAllBooks = async (searchTerm?: string, genre?: string, publicationYear?:number) => {
+const getAllBooks = async (limit?:number | undefined,searchTerm?: string, genre?: string, publicationYear?:number) => {
   const filter: any = {};
 
   if (searchTerm) {
@@ -26,7 +26,7 @@ const getAllBooks = async (searchTerm?: string, genre?: string, publicationYear?
     };
   }
 
-  const result = await Book.find(filter).sort({ createdAt: -1 });
+  const result = await Book.find(filter).sort({ createdAt: -1 }).limit(limit);
   return result;
 };
 
@@ -64,6 +64,25 @@ const updateBook = async (
   return result;
 };
 
+interface reviews {
+  rating:number;
+  comment:string
+}
+
+const postReview = async (id:string,payload:reviews )=> {
+  const isBookExit = await Book.findById(id);
+  if(!isBookExit){
+    throw new Error("Book is not exits")
+  }
+  const result = await  Book.findByIdAndUpdate(
+    id,
+    { $push: { reviews: payload } },
+    { new: true }
+  );
+
+  return result;
+}
+
 // delete book
 const deleteBook = async (_id: string) => {
   const isExist = await Book.findOne({ _id });
@@ -80,4 +99,5 @@ export const bookService = {
   createBook,
   updateBook,
   deleteBook,
+  postReview
 };

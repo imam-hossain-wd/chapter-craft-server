@@ -12,6 +12,7 @@ const ReviewSchema: Schema = new Schema({
       author: { type: String, required: true },
       genre: { type: String, required: true },
       publication_date: { type: Date, required: true },
+      user_email:{type:String, default:undefined},
       image_url: { type: String, required: true },
       reviews: {
         type: [ReviewSchema],
