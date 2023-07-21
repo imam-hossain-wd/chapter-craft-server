@@ -29,41 +29,51 @@ const book_service_1 = require("./book.service");
 const http_status_1 = __importDefault(require("http-status"));
 const getAllBooks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm, genre, publicationYear } = req.query;
+    console.log('requer', genre);
     const books = yield book_service_1.bookService.getAllBooks(searchTerm, genre, publicationYear);
     res.status(200).json({
         status: "success",
-        statusCode: 200,
+        statusCode: http_status_1.default.ok,
         success: true,
         data: books,
     });
 }));
 const getSingleBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.id;
-    console.log(_id);
+    console.log(_id, "kkkkkkkk");
     const result = yield book_service_1.bookService.getSingleBook(_id);
     res.status(200).json({
         status: "success",
-        statusCode: 200,
+        statusCode: http_status_1.default.ok,
         success: true,
         data: result,
     });
 }));
 const createBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const book = __rest(req.body, []);
-    console.log(req.body);
     const result = yield book_service_1.bookService.createBook(book);
     res.status(200).json({
         status: "success",
-        statusCode: 200,
+        statusCode: http_status_1.default.ok,
         success: true,
         data: result,
     });
 }));
-//update book
-const updateFaculty = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const postReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bookId = req.params.id;
+    const { rating, comment } = req.body;
+    const result = yield book_service_1.bookService.postReview(bookId, { rating, comment });
+    res.status(200).json({
+        statusCode: http_status_1.default.ok,
+        status: 'success',
+        data: result
+    });
+}));
+const updateBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.id;
-    const updatedData = req.body;
+    const updatedData = req.body.updatedBook;
     const result = yield book_service_1.bookService.updateBook(_id, updatedData);
+    console.log(result);
     res.status(200).json({
         statuscode: 200,
         status: "success",
@@ -74,11 +84,9 @@ const updateFaculty = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 //delete book
 const deleteBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _id = req.params.id;
-    const result = yield book_service_1.bookService.deleteBook(_id);
+    const email = req.body.email;
+    const result = yield book_service_1.bookService.deleteBook(_id, email);
     res.status(200).json({
-        statusCode: http_status_1.default.OK,
-        success: true,
-        message: "Book deleted successfully !",
         data: result,
     });
 }));
@@ -87,5 +95,6 @@ exports.bookcontroller = {
     getSingleBook,
     createBook,
     deleteBook,
-    updateFaculty
+    updateBook,
+    postReview
 };

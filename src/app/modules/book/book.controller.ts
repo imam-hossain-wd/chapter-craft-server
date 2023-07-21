@@ -5,13 +5,12 @@ import httpStatus from "http-status";
 
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  console.log('qqqqqqqqqq',req.query);
-
-  const {limit, searchTerm, genre, publicationYear }: {limit?:number |undefined ,searchTerm?: string  , genre?: string, publicationYear?: number } = req.query;
-  const books = await bookService.getAllBooks(limit,searchTerm , genre , publicationYear );
+  const { searchTerm, genre, publicationYear }: {limit?:string |undefined ,searchTerm?: string  , genre?: string, publicationYear?: string } = req.query;
+  console.log('requer', genre);
+  const books = await bookService.getAllBooks(searchTerm , genre , publicationYear );
   res.status(200).json({
     status: "success",
-    statusCode: 200,
+    statusCode: httpStatus.ok,
     success: true,
     data: books,
   });
@@ -19,11 +18,10 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleBook = catchAsync(async (req: Request, res: Response) =>{
   const _id = req.params.id;
-  console.log(_id);
   const result = await bookService.getSingleBook(_id)
   res.status(200).json({
     status: "success",
-    statusCode: 200,
+    statusCode: httpStatus.ok,
     success: true,
     data: result,
   });
@@ -32,11 +30,10 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) =>{
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const { ...book } = req.body;
-  console.log(req.body);
   const result = await bookService.createBook(book);
   res.status(200).json({
     status: "success",
-    statusCode: 200,
+    statusCode: httpStatus.ok,
     success: true,
     data: result,
   });
@@ -47,7 +44,7 @@ const postReview = catchAsync(async(req: Request, res: Response)=>{
   const { rating, comment } = req.body;
   const result = await bookService.postReview(bookId, {rating, comment})
   res.status(200).json({
-    statusCode : 200,
+    statusCode :httpStatus.ok,
     status:'success',
     data: result
   })
@@ -58,8 +55,6 @@ const postReview = catchAsync(async(req: Request, res: Response)=>{
 const updateBook = catchAsync(async (req: Request, res: Response) => {
     const _id = req.params.id;
     const updatedData = req.body.updatedBook;
-    const commentData = req.body.commentData
-    if(updatedData){
       const result = await bookService.updateBook(_id, updatedData);
       console.log(result);
       res.status(200).json({
@@ -68,30 +63,15 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
           success:true,
           data:result
       })
-    }
-    if(commentData){
-      const result = await bookService.updateBook(_id, commentData);
-      console.log(result);
-      res.status(200).json({
-          statuscode: 200,
-          status : "success",
-          success:true,
-          data:result
-      })
-    }
    
   });
 
 //delete book
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const _id = req.params.id;
-  console.log('delete controller clicked');
-  console.log('params id', _id);
-  const result = await bookService.deleteBook(_id);
+  const email = req.body.email;
+  const result = await bookService.deleteBook(_id, email);
   res.status(200).json({
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Book deleted successfully !",
     data: result,
   });
 });

@@ -32,34 +32,74 @@ const getAllBooks = (searchTerm, genre, publicationYear) => __awaiter(void 0, vo
         filter.$or = [
             { title: searchRegex },
             { author: searchRegex },
-            { genre: searchRegex },
+            { genre: searchRegex }
         ];
     }
     if (genre) {
         filter.genre = genre;
     }
     if (publicationYear) {
-        const publicationYearStart = new Date(publicationYear, 0, 1);
-        const publicationYearEnd = new Date(publicationYear, 11, 31);
-        filter.publication_date = {
-            $gte: publicationYearStart,
-            $lte: publicationYearEnd,
-        };
+        const yearNumber = parseInt(publicationYear);
+        if (!isNaN(yearNumber)) {
+            const yearStart = new Date(yearNumber, 0, 1);
+            const yearEnd = new Date(yearNumber, 11, 31, 23, 59, 59, 999);
+            filter.publication_date = {
+                $gte: yearStart,
+                $lte: yearEnd,
+            };
+        }
+        else {
+            // Handle invalid publicationYear
+        }
     }
     const result = yield book_model_1.default.find(filter).sort({ createdAt: -1 });
     return result;
 });
+// const getAllBooks = async (
+//   searchTerm?: string,
+//   genre?: string,
+//   publicationYear?: string
+// ) => {
+//   const filter: any = {};
+//   if (searchTerm) {
+//     const searchRegex = new RegExp(searchTerm, 'i');
+//     filter.$or = [
+//       { title: searchRegex },
+//       { author: searchRegex },
+//       { genre: searchRegex }
+//     ];
+//   }
+//   if (genre) {
+//     filter.genre = genre;
+//   }
+//   if (publicationYear) {
+//     const yearNumber = parseInt(publicationYear);
+//     if (!isNaN(yearNumber)) {
+//       const yearStart = new Date(yearNumber, 0, 1);
+//       const yearEnd = new Date(yearNumber, 11, 31, 23, 59, 59, 999);
+//       filter.publication_date = {
+//         $gte: yearStart,
+//         $lte: yearEnd,
+//       };
+//     } else {
+//     }
+//   }
+//   const result = await Book.find(filter).sort({ createdAt: -1 });
+//   return result;
+// };
 // get single book
 const getSingleBook = (_id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield book_model_1.default.findById({ _id });
+    console.log(result, "ssssssssssssss");
     return result;
 });
 const createBook = (book) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield book_model_1.default.create(book);
-    return book;
+    return result;
 });
 //update book
 const updateBook = (_id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("serviced....", payload);
     const isExist = yield book_model_1.default.findOne({ _id });
     if (!isExist) {
         throw new Error("Book not found !");
@@ -71,14 +111,29 @@ const updateBook = (_id, payload) => __awaiter(void 0, void 0, void 0, function*
     });
     return result;
 });
+const postReview = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isBookExit = yield book_model_1.default.findById(id);
+    if (!isBookExit) {
+        throw new Error("Book is not exits");
+    }
+    const result = yield book_model_1.default.findByIdAndUpdate(id, { $push: { reviews: payload } }, { new: true });
+    return result;
+});
 // delete book
-const deleteBook = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBook = (_id, email) => __awaiter(void 0, void 0, void 0, function* () {
     const isExist = yield book_model_1.default.findOne({ _id });
     if (!isExist) {
         throw new Error("Book is not found !");
     }
-    const result = yield book_model_1.default.deleteOne({ _id });
-    return result;
+    if (isExist && isExist.user_email === email) {
+        const book = yield book_model_1.default.deleteOne({ _id });
+        if (book) {
+            const data = "Book deleted successfully";
+            return data;
+        }
+    }
+    const data = "You are unauthorize . cannot delete book !";
+    return data;
 });
 exports.bookService = {
     getAllBooks,
@@ -86,4 +141,5 @@ exports.bookService = {
     createBook,
     updateBook,
     deleteBook,
+    postReview,
 };

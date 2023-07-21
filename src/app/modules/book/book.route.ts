@@ -9,5 +9,6 @@ router.post('/create-book', bookcontroller.createBook);
 router.get('/', bookcontroller.getAllBooks);
 router.get('/book/:id', bookcontroller.getSingleBook);
 router.patch('/:id', bookcontroller.updateBook);
-router.delete('/:id', bookcontroller.deleteBook);
+router.delete('/delete/:id', bookcontroller.deleteBook);
+
 export const bookRoutes = router;
