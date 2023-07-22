@@ -1,7 +1,10 @@
-import httpStatus from "http-status";
 import { IBook } from "./book.interface";
 import Book from "./book.model";
 
+interface reviews {
+  rating: number;
+  comment: string;
+}
 
 
 const getAllBooks = async (
@@ -56,32 +59,33 @@ const createBook = async (book: IBook): Promise<IBook | null> => {
   return result
 };
 
-
-
-//update book
-
 const updateBook = async (
   _id: string,
   payload: Partial<IBook>
-): Promise<IBook | null> => {
+)=> {
   const isExist = await Book.findOne({ _id });
+  const email = payload.user_email;
 
   if (!isExist) {
     throw new Error("Book not found !");
   }
-  const { ...bookData } = payload;
-  const updatedBookData: Partial<IBook> = { ...bookData };
 
-  const result = await Book.findOneAndUpdate({ _id }, updatedBookData, {
-    new: true,
-  });
-  return result;
+  if (isExist && isExist.user_email === email) {
+    const { ...bookData } = payload;
+    const updatedBookData: Partial<IBook> = { ...bookData };
+    
+    const result = await Book.findOneAndUpdate({ _id }, updatedBookData, {
+      new: true,
+    });
+    if (result) {
+      const data = "Book updated successfully !";
+      return data;
+    }
+  }
+  const data = "Only Authorized user can update data";
+  return data;
 };
 
-interface reviews {
-  rating: number;
-  comment: string;
-}
 
 const postReview = async (id: string, payload: reviews) => {
   const isBookExit = await Book.findById(id);

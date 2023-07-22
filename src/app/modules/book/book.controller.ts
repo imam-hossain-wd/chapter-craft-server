@@ -56,14 +56,10 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
     const _id = req.params.id;
     const updatedData = req.body.updatedBook;
       const result = await bookService.updateBook(_id, updatedData);
-      console.log(result);
+      console.log('book controller result ', result);
       res.status(200).json({
-          statuscode: 200,
-          status : "success",
-          success:true,
           data:result
       })
-   
   });
 
 //delete book

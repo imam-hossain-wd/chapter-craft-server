@@ -8,7 +8,7 @@ const moduleRoutes = [
   {
     path: '/books',
     route: bookRoutes
-  },
+  }
  
 ];
 
