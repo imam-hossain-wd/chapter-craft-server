@@ -1,5 +1,5 @@
 {
-  "name": "book-catalog-server",
+  "name": "chapter-craft-server",
   "version": "1.0.0",
   "main": "dist/server.js",
   "license": "MIT",
